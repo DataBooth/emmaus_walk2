@@ -5,7 +5,7 @@ __all__ = ['calc_walk_stats', 'load_and_cache_raw_walk_data']
 # Cell
 import os
 import pandas as pd
-import activityio as aio
+# import activityio as aio
 from dateutil.parser import parse
 import datetime as dt
 import sqlite3 as sql
@@ -29,7 +29,7 @@ def calc_walk_stats(walk_data):
     return total_time, total_distance, start_coord, end_coord
 
 
-# TODO: use st.cache() and also look to pre-load and cache/feather data (or similar) - NB: use of @st.cache() below didn't work
+# TODO: use st.cache_data() and also look to pre-load and cache/feather data (or similar) - NB: use of @st.cache_data() below didn't work
 def load_and_cache_raw_walk_data(walk_name, sample_freq, conn):
     RAW_FIT_FILE_PATH = 'icloud/Data/HealthFit/FIT'
     fit_dir = Path.home()/RAW_FIT_FILE_PATH

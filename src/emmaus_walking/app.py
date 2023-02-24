@@ -14,7 +14,8 @@ import streamlit as st
 from streamlit_folium import folium_static
 import folium
 from PIL import Image
-from IPython.display import display
+
+#from IPython.display import display
 #import os, io
 #import activityio as aio
 #from dateutil.parser import parse
@@ -33,7 +34,7 @@ except:
 DATA_INFO = 'Apple Watch via Health Fit'
 AUTHOR_INFO = 'by [DataBooth.com.au](https://www.databooth.com.au)'
 APP_NAME = 'Emmaus Walking Mapping App'
-CACHED_WALK_DATA = 'emmaus_walking.cache.feather'
+CACHED_WALK_DATA = 'data/emmaus_walking.cache.feather'
 
 st.set_page_config(page_title=APP_NAME, layout='wide')
 
@@ -59,7 +60,7 @@ def plot_walk_points(walk_points, map_handle, linecolour, linewidth):
 
 # Cell
 
-IMAGE_PATH = 'emmaus_walking/resources'
+IMAGE_PATH = 'src/emmaus_walking/resources'
 IMAGE_PATH = Path.cwd().resolve()/IMAGE_PATH
 
 WALK_NAME = ['B2M: Bondi to Manly', 'B2W: Bondi to Wollongong', 'D2C: Drummoyne to Cockatoo', 'GNW: Great North Walk', \
@@ -89,7 +90,7 @@ def app_sidebar(APP_NAME):
 
     st.sidebar.info(APP_NAME)
 
-    col1, col2 = st.sidebar.beta_columns(2)
+    col1, col2 = st.sidebar.columns(2)
 
     with col1:
         image1 = Image.open(IMAGE_PATH/'AppleWatchExercise.jpeg').resize((144, 144))  # NOTE: resize done here
@@ -111,7 +112,7 @@ def app_sidebar(APP_NAME):
 
 # Cell
 
-@st.cache
+@st.cache_data
 def load_cached_walking_data():
     all_walks_df = pd.read_feather(CACHED_WALK_DATA)   # load cached (downsampled) data
     return all_walks_df
@@ -231,6 +232,6 @@ sb = app_sidebar(APP_NAME)
 if in_notebook():
     map_handle, walk_data, walk_date, walk_points = notebook_mainscreen(APP_NAME, sb)
     walk_date
-    display(map_handle)
+    # display(map_handle)
 else:
     map_handle = app_mainscreen(APP_NAME, sb)
