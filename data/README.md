@@ -17,5 +17,5 @@ An excellent tool which transforms the zipped XML to a SQLite database is availa
 Essentially you just need to pip install the tool and then convert it on the command line:
 
     $ pip install healthkit-to-sqlite
-    
+
     $ healthkit-to-sqlite export.zip healthkit_db.sqlite

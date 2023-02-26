@@ -10,7 +10,7 @@ from PIL import Image
 from streamlit_folium import folium_static
 
 
-#TODO: Move FOLLOWING to config toml and also look at "help" setup from other Streamlit apps 
+#TODO: Move FOLLOWING to config toml and also look at "help" setup from other Streamlit apps
 
 DATA_INFO = 'Apple Watch via Health Fit'
 AUTHOR_INFO = 'by [DataBooth.com.au](https://www.databooth.com.au)'
