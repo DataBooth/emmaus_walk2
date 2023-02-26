@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  emmauswalk2:
+    image: emmauswalk2
+    build:
+      context: .
+      dockerfile: ./Dockerfile

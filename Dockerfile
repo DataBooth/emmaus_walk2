@@ -1,28 +1,24 @@
-# See https://stackoverflow.com/questions/68673221/warning-running-pip-as-the-root-user
-# for enhancements to Dockerfile e.g. not running as root & in venv
+# For more information, please refer to https://aka.ms/vscode-docker-python
+FROM python:3.10-slim
 
-#FROM python:3.9.12
-FROM python:3.10-slim-bullseye
-RUN apt-get update && apt-get install -y
+# Keeps Python from generating .pyc files in the container
+ENV PYTHONDONTWRITEBYTECODE=1
 
-# remember to expose the port your app'll be exposed on.
-EXPOSE 8080
+# Turns off buffering for easier container logging
+ENV PYTHONUNBUFFERED=1
 
-RUN pip install -U pip
+# Install pip requirements
+COPY requirements-deploy.txt .
+RUN python -m pip install -r requirements-deploy.txt
 
-#TODO: Export requirements.txt from Poetry
-
-COPY requirements-deploy.txt requirements.txt
-RUN pip install -r requirements.txt
-
-# copy into a directory of its own (so it isn't in the toplevel dir)
-# RUN mkdir -p /app
-
-#TODO: Fix the paths & data files
-
-COPY src app/src
-COPY data app/data
 WORKDIR /app
+COPY . /app
 
-# run it!
-ENTRYPOINT ["streamlit", "run", "src/emmaus_wallking/app.py", "--server.port=8080", "--server.address=0.0.0.0"]
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+#CMD ["python", "src/emmaus_walking/app.py"]
+CMD ["streamlit", "run", "src/emmaus_walking/app.py"]
